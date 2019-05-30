@@ -1,0 +1,23 @@
+num.accesorios <- function(panmatrix, p=95){
+  if(is.null(panmatrix)){
+    print("Error: No panmatrix")
+  }
+  if(!is.double(p)){
+    print("Error: p not a double")
+  }
+  if(p>100){
+    print("Error: p > 100")
+  }
+  if(p<0){
+    print("Error: p < 0")
+  }
+  
+  pm1 <- p.numgenes <- 
+  num_genes <- apply(panmatrix, 1, sum)
+  panmatrix.0 <- panmatrix[which(num_genes>0),]
+  num_genes <- apply(panmatrix.0, 1, sum)
+  panmatrix.1 <- panmatrix.0[which(num_genes<10*95/100),]
+  acc.size <<- apply(panmatrix.1, 2, sum)
+  print(summary(acc.size))
+  print(acc.size)
+}
