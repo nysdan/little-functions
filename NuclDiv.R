@@ -14,7 +14,5 @@ NuclDiv <- function(fastas){
     ali.b <- as.DNAbin(ali)
     nucl.div[c] <- pegas::nuc.div(ali.b)
   }
-  
-  boxplot.default(nucl.div)
   NucleotideDiversity <<- nucl.div
 }
