@@ -1,0 +1,23 @@
+res_checkm <- function(bins_stats_ext){
+
+  require(dplyr)
+  require(tidyverse)
+  
+  checkm_res <- read.table(bins_stats_ext, 
+                           sep = ",", comment.char = "", quote = "\\'", fill = T) %>% 
+    select(1:20) %>% 
+    mutate(genoma = str_split(V1, "\\\t\\{marker lineage:", simplify = T)[,1]) %>% 
+    mutate(marker_lineage = str_split(V1, "\\\t\\{marker lineage:", simplify = T)[,2])
+  
+  checkm_res <- checkm_res %>% 
+    mutate(markers = str_remove(V3, "# markers: ")) %>% 
+    mutate(completeness = as.numeric(str_remove(V11, "Completeness: "))) %>% 
+    mutate(contamination = as.numeric(str_remove(V12, "Contamination: "))) %>% 
+    mutate(GC = as.numeric(str_remove(V13, "GC: "))*100) %>% 
+    mutate(GC_std = as.numeric(str_remove(V14, "GC std: "))*100) %>% 
+    select(-c(1:20))
+  
+  
+  write.table(checkm_res, paste0(str_remove(bins_stats_ext, "storage/bin_stats_ext.tsv"), "checkm_res.tsv"),
+              sep = "\t", quote = F, row.names = F,) 
+}
